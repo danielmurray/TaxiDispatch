@@ -476,3 +476,10 @@ var arrayMax = function(array, func){
   return array[largestIndex]
 }
 
+var manhattanDistance = function(x1,x2,y1,y2){
+  xdif = Math.abs(x1 - x2)
+  ydif = Math.abs(y1 - y2)
+  distance = xdif + ydif
+  return distance
+}
+

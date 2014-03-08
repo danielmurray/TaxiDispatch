@@ -48,7 +48,7 @@ var HomeView = BaseView.extend({
     })
 
     taxis = new Taxis({
-      taxiCount: 3,
+      taxiCount: 1,
       taxiDispatch: this.taxiDispatch
     })
 

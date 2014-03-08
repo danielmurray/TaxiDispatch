@@ -10,50 +10,17 @@ var TaxiModel = ModelWS.extend({
 
 		this.customers = new customerCollection
 
-		this.pathTree = new PathTree(this.x, this.y)
+		this.pathTree = new PathTree()
 
-	},
-
-	potentialEffectientRoute: function(customer){
-		goalStack = this.pathTree.getGoalStack()
-		route = []
-		if(goalStack.length == 0){
-			//car is not moving and can be given a direct path
-			route.push({
-				coords: customer.destination,
-				customer: customer
-			})
-			route.push({
-				coords: customer.source,
-				customer: customer
-			})
-			route.push({
-				coords: this.getCoords(),
-				customer: null
-			})
-		}else{
-			//Car is in motion, there for we try to find the most
-			//effecient way to fill in the new customer
-			
-			console.log(customer.source)
-
-			goalStack.push
-
-			for( var i = 0 ; i < goalStack.length; i++){
-
-			}
-
-			sourceIndex = 1 
-
-		}
-
-		return route
-	
 	},
 
 	pickUp: function(customer){
 
 		this.customers.add(customer)
+		console.log('here we should pop off goal stack')
+		console.log(this.pathTree.getGoalStack())
+		this.pathTree.popGoal()
+		console.log(this.pathTree.getGoalStack())
 
 	},
 
@@ -61,6 +28,10 @@ var TaxiModel = ModelWS.extend({
 
 		this.customers.remove(customer)
 		this.status='parked'
+		console.log('here we should pop off goal stack')
+		console.log(this.pathTree.getGoalStack())
+		this.pathTree.popGoal()
+		console.log(this.pathTree.getGoalStack())
 
 	},
 
@@ -74,17 +45,101 @@ var TaxiModel = ModelWS.extend({
 		
 	},
 
-	assignCustomer: function(customer){
-		this.status = 'active'
+	currentPath: function(customer){
+		return this.pathTree.getGoalStack()
+	},
 
-		this.pathTree.pushGoal({
+	potentialPathWith: function(customer){
+
+		goalStack = this.pathTree.getGoalStack().concat()
+
+		customerStack = [{
 			coords: customer.destination,
 			customer: customer
-		})
-		this.pathTree.pushGoal({
+		},{
 			coords: customer.source,
 			customer: customer
+		}]
+
+		//Current Location
+		CL = {	
+			coords: {
+				x: this.x, 
+				y: this.y
+			}
+		}
+
+		potentialPathWithCustomer = []
+
+		while (true){
+			if(goalStack.length == 0){
+				potentialPathWithCustomer = potentialPathWithCustomer.concat(customerStack)
+				break
+			}else if(customerStack.length == 0){
+				potentialPathWithCustomer = potentialPathWithCustomer.concat(goalStack)
+				break
+			}else{
+
+				//Next Goal Destination
+				NGD = goalStack.splice(-1)[0]
+				//Next Customer Destination
+				NCD = customerStack.splice(-1)[0]
+
+				distanceToNGD = this.manhattanDistance(CL, NGD)
+				distanceToNCD = this.manhattanDistance(CL, NCD)
+
+				if(distanceToNCD < distanceToNGD){
+					//next customer destination is closer
+					NCD = goalStack.pop()
+					potentialPathWithCustomer.unshift(NCD)
+					CL = NCD
+				}else{
+					//next original customer stack is closer
+					NGD = goalStack.pop()
+					potentialPathWithCustomer.unshift(NGD)
+					CL = NGD
+				}
+
+			}	
+		}
+
+		return potentialPathWithCustomer
+
+	},
+
+	calculateRouteDistance: function(route){
+
+		routeStack = route.concat()
+
+		totalRouteDist = 0
+
+		routeStack.push({
+			coords: {
+				x: this.x,
+				y: this.y
+			}
 		})
+
+		for(var i=0; i < routeStack.length - 1; i++){
+			routeSrc = routeStack[i]
+			routeDest = routeStack[i+1]
+			dist =  this.manhattanDistance(routeSrc, routeDest)
+			totalRouteDist = totalRouteDist + dist
+		}
+
+		return totalRouteDist
+	},
+
+	manhattanDistance: function(src, dest){
+		srcco = src.coords
+		destco = dest.coords
+		return manhattanDistance(srcco.x, destco.x, srcco.y, destco.y)
+	},
+
+	assignCustomer: function(customer, path){
+		this.status = 'active'
+
+		this.pathTree.concat(path)
 
 		this.nextDestination()
 	},
@@ -92,6 +147,7 @@ var TaxiModel = ModelWS.extend({
 	nextDestination: function(){
 		goalStackHeight = this.pathTree.getGoalStackLength()
 
+		console.log(goalStackHeight)
 		if(goalStackHeight > 0){
 			this.pathTree.buildPathToNextGoal({
 				x: this.x,
@@ -107,7 +163,7 @@ var TaxiModel = ModelWS.extend({
 	nextAnimation: function(){
 
 		animationDetails = this.pathTree.popNextAnimation()
-		
+
 		this.x = animationDetails.x
 		this.y = animationDetails.y
 
@@ -136,6 +192,7 @@ var TaxiModel = ModelWS.extend({
 				return 'black'
 		}
 	},
+
 })
 
 var customerModel = ModelWS.extend({
