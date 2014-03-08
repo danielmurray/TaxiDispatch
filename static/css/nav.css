@@ -1,0 +1,22 @@
+.dashboard-wrapper{
+	position: relative;
+	
+	height: 768px;
+    width: 1024px;
+    margin: 0 auto;
+    background-color: whitemsoke;
+}
+
+.dashboard{
+	position: relative;
+
+	height:100%;
+	width: 100%;
+}
+
+.taxis-wrapper{
+	position: absolute;
+
+	top: 0;
+	left:0;
+}

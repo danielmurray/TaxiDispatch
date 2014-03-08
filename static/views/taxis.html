@@ -1,0 +1,33 @@
+<link href="/static/css/taxis.css" rel="stylesheet" type="text/css">
+<style>
+	.taxi{
+		width:<%= mapDetails.roadWidth%>px;
+		height:<%= mapDetails.roadHeight%>px;
+		border-radius: <%=mapDetails.roadWidth * mapDetails.roadHeight%>px
+	}
+</style>
+
+<div class='taxis'>
+	<%	
+		taxis = taxiDispatch.models
+		for (var i = 0; i < taxis.length; i++){ 
+			taxi = taxis[i]
+			coord = taxiDispatch.getCoord(taxi)
+			x = coord.x
+			y = coord.y
+	%>
+	<style>
+		#taxi<%=taxi.cid%>{	
+			left: <%= x%>px;
+			top: <%= y%>px;
+
+			background-color: <%=taxi.getStatusColor()%>
+		}
+	</style>
+		<div id=<%='taxi' + taxi.cid%> class='taxi'>
+			
+		</div>
+	<%
+		}
+	%>
+</div>

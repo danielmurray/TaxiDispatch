@@ -1,0 +1,75 @@
+.map{
+	height: 100%;
+	width: 100%;
+}
+
+.vertical-street-wrapper{
+	height: 100%;
+	float: left;
+}
+
+.intersection-wrapper{
+	position: relative;
+}
+
+.block-wrapper{
+	height: 45%;
+	width: 100%;
+}
+
+.src{
+  	background-color: rgb(223, 101, 101);
+}
+
+.dest{
+  	background-color: rgb(90, 223, 96);
+}
+
+.block{
+	position: absolute;
+
+	height: 40%;
+	width: 40%;
+
+  	background-color: rgba(227, 227, 145,1);
+}
+
+.street{
+	position: absolute;
+}
+
+.block:hover{
+  	background-color: rgb(223, 101, 101);
+}
+
+.north{
+	top: 0;
+}
+
+.north.block{
+	border-bottom: black 1px solid;
+}
+
+.south{
+	bottom: 0;
+}
+
+.south.block{
+	border-top: black 1px solid;s
+}
+
+.west{
+	left: 0;
+}
+
+.west.block{
+	border-right: black 1px solid;
+}
+
+.east{
+	right:0;
+}
+
+.east.block{
+	border-left: black 1px solid;
+}

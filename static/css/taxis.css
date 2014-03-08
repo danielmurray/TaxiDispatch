@@ -1,0 +1,16 @@
+.taxis{
+	position: relative;
+
+	height: 0px;
+	width: 0px;
+}
+
+.taxi{
+	position: absolute;
+
+	height: 15px;
+	width: 15px;
+	border-radius: 20px;
+
+	background-color: blue;
+}

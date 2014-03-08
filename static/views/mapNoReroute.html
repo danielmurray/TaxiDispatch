@@ -1,0 +1,196 @@
+<link href="/static/css/map.css" rel="stylesheet" type="text/css">
+<link href="/static/css/taxi.css" rel="stylesheet" type="text/css">
+
+<div id='map' class='map'>
+<style>
+	.intersection-wrapper{
+		height:<%= mapDetails.intersectionHeight %>px;
+	}
+
+	.vertical-street-wrapper{
+		width:<%= mapDetails.intersectionWidth %>px;
+	}
+
+	.horizontal-street{
+		top: <%=mapDetails.blockHeight %>px;
+		height:<%= mapDetails.roadHeight %>px;
+		width: <%= mapDetails.blockWidth %>px;
+	}
+
+	.vertical-street{
+		left: <%=mapDetails.blockWidth %>px;
+		height: <%= mapDetails.blockHeight %>px;
+		width:<%= mapDetails.roadWidth %>px;
+	}
+
+	.taxi{
+		width:<%= mapDetails.roadWidth%>px;
+		height:<%= mapDetails.roadHeight%>px;
+		border-radius: <%=mapDetails.roadWidth * mapDetails.roadHeight%>px
+	}
+</style>
+<%
+	i = 5
+	for (colIndex = 0; colIndex < mapDetails.colCount; colIndex++){ 
+%>
+	<div class='vertical-street-wrapper'>
+<%	
+		for (rowIndex = 0; rowIndex < mapDetails.rowCount; rowIndex++){ 
+
+%>
+		<div id="intersect<%=colIndex+"-"+rowIndex%>" class='intersection-wrapper'>
+			<div class='north-block-wrapper block-wrapper'>
+				<div class="north west block">
+<%
+			blockCustomers = taxiDispatch.blockCustomers({
+					x: colIndex, 
+					y: rowIndex, 
+					northSouth: 'north',
+					westEast: 'west'
+			})
+
+			for(var i = 0; i < blockCustomers.length; i++){
+				obj = blockCustomers[i]
+				type = obj.type
+				customer = obj.customer				
+%>
+					<style>
+						#<%=type + customer.id%>{
+							height: <%=100/blockCustomers.length%>%
+						}
+					</style>
+					
+					<div id='<%=type + customer.id%>' class='<%=type%>'>
+						<%=customer.id + type%>
+					</div>
+<%
+			}
+%>
+				</div>
+				<div class='north vertical-street street'>
+				</div>
+				<div class="north east block">
+<%
+			blockCustomers = taxiDispatch.blockCustomers({
+					x: colIndex, 
+					y: rowIndex, 
+					northSouth: 'north',
+					westEast: 'east'
+			})
+
+			for(var i = 0; i < blockCustomers.length; i++){
+				obj = blockCustomers[i]
+				type = obj.type
+				customer = obj.customer				
+%>
+					<style>
+						#<%=type + customer.id%>{
+							height: <%=100/blockCustomers.length%>%
+						}
+					</style>
+					
+					<div id='<%=type + customer.id%>' class='<%=type%>'>
+						<%=customer.id + type%>
+					</div>
+<%
+			}
+%>
+				</div>
+			</div>
+			<div class='center-road-wrapper'>
+				<div class='west horizontal-street street'>
+				</div>
+				<div class='intersection'>
+				</div>
+				<div class='east horizontal-street street'>
+				</div>
+			</div>
+			<div class='south-block-wrapper block-wrapper'>
+				<div class="south west block">
+<%
+			blockCustomers = taxiDispatch.blockCustomers({
+					x: colIndex, 
+					y: rowIndex, 
+					northSouth: 'south',
+					westEast: 'west'
+			})
+
+			for(var i = 0; i < blockCustomers.length; i++){
+				obj = blockCustomers[i]
+				type = obj.type
+				customer = obj.customer				
+%>
+					<style>
+						#<%=type + customer.id%>{
+							height: <%=100/blockCustomers.length%>%
+						}
+					</style>
+					
+					<div id='<%=type + customer.id%>' class='<%=type%>'>
+						<%=customer.id + type%>
+					</div>
+<%
+			}
+%>
+				</div>
+				<div class='south vertical-street street'>
+				</div>
+				<div class="south east block">
+<%
+			blockCustomers = taxiDispatch.blockCustomers({
+					x: colIndex, 
+					y: rowIndex, 
+					northSouth: 'north',
+					westEast: 'west'
+			})
+
+			for(var i = 0; i < blockCustomers.length; i++){
+				obj = blockCustomers[i]
+				type = obj.type
+				customer = obj.customer				
+%>
+					<style>
+						#<%=type + customer.id%>{
+							height: <%=100/blockCustomers.length%>%
+						}
+					</style>
+					
+					<div id='<%=type + customer.id%>' class='<%=type%>'>
+						<%=customer.id + type%>
+					</div>
+<%
+			}
+%>
+				</div>
+			</div>
+		</div>
+<%
+		}
+%>
+	</div>
+<%
+	}
+%>
+<%	
+	taxis = taxiDispatch.models
+	for (var i = 0; i < taxis.length; i++){ 
+		taxi = taxis[i]
+		coord = taxiDispatch.getCoord(taxi)
+		x = coord.x
+		y = coord.y
+%>
+<style>
+	#taxi<%=taxi.cid%>{	
+		left: <%= x%>px;
+		top: <%= y%>px;
+
+		background-color: <%=taxi.getStatusColor()%>
+	}
+</style>
+	<div id=<%='taxi' + taxi.cid%> class='taxi'>
+		
+	</div>
+<%
+	}
+%>
+</div>

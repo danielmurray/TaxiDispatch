@@ -1,0 +1,14 @@
+.panel{
+	height:100%;
+	position: absolute;
+}
+
+.left-panel{
+	left:0;
+	width:70%;
+}
+
+.right-panel{
+	right:0;
+	width: 30%;
+}

@@ -1,0 +1,19 @@
+TaxiDispatch: Artificial Intelligent Taxi Routing
+===========
+With the growing acceptance of Self Driving Cars, it seems only logical that the first acceptance of these automobiiles will be the in the public transport industry. Here we play around with the potential issues facing this integration. For example...
+
+- How are new customers added to the system ?
+- How can we satisfy customer transportation needs in the most effecient means possible?
+- How is the service provided to the customer?
+- How can the taxis learn and anticipate customers?
+
+Shits&Giggles Inc.
+- Dan Murray
+- Kike Navalon
+
+## Setup
+
+### Running
+
+- `python2 app.py`
+- `localhost:5000`

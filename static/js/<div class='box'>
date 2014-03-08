@@ -1,0 +1,11 @@
+<div class='box'>
+	Verified by Securifi
+<div>
+
+<style>
+.box{
+	color:white;
+	background-color:green;
+	font-family: arial;
+}
+</style>

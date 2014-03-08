@@ -1,0 +1,201 @@
+<link href="/static/css/dashboard.css" rel="stylesheet" type="text/css">
+<link href="/static/css/map.css" rel="stylesheet" type="text/css">
+
+<style>
+	.intersection-wrapper{
+		height:<%= mapDetails.intersectionHeight %>px;
+	}
+
+	.vertical-street-wrapper{
+		width:<%= mapDetails.intersectionWidth %>px;
+	}
+
+	.horizontal-street{
+		top: <%=mapDetails.blockHeight %>px;
+		height:<%= mapDetails.roadHeight %>px;
+		width: <%= mapDetails.blockWidth %>px;
+	}
+
+	.vertical-street{
+		left: <%=mapDetails.blockWidth %>px;
+		height: <%= mapDetails.blockHeight %>px;
+		width:<%= mapDetails.roadWidth %>px;
+	}
+
+	.taxi{
+		width:<%= mapDetails.roadWidth%>px;
+		height:<%= mapDetails.roadHeight%>px;
+		border-radius: <%=mapDetails.roadWidth * mapDetails.roadHeight%>px
+	}
+</style>
+
+<div class='left-panel panel'>
+	<div class='map-wrapper'>
+		<div id='map' class='map'>
+			<%
+				for (colIndex = 0; colIndex < mapDetails.colCount; colIndex++){ 
+			%>
+				<div class='vertical-street-wrapper'>
+			<%	
+					for (rowIndex = 0; rowIndex < mapDetails.rowCount; rowIndex++){ 
+
+			%>
+					<div id="intersect<%=colIndex+"-"+rowIndex%>" class='intersection-wrapper'>
+						<div class='north-block-wrapper block-wrapper'>
+							<div class="north west block">
+			<%
+						blockCustomers = taxiDispatch.blockCustomers({
+								x: colIndex, 
+								y: rowIndex, 
+								northSouth: 'north',
+								westEast: 'west'
+						})
+
+						for(var i = 0; i < blockCustomers.length; i++){
+							obj = blockCustomers[i]
+							type = obj.type
+							customer = obj.customer				
+			%>
+								<style>
+									#<%=type + customer.id%>{
+										height: <%=100/blockCustomers.length%>%
+									}
+								</style>
+								
+								<div id='<%=type + customer.id%>' class='<%=type%>'>
+									<%=customer.id + type%>
+								</div>
+			<%
+						}
+			%>
+							</div>
+							<div class='north vertical-street street'>
+							</div>
+							<div class="north east block">
+			<%
+						blockCustomers = taxiDispatch.blockCustomers({
+								x: colIndex, 
+								y: rowIndex, 
+								northSouth: 'north',
+								westEast: 'east'
+						})
+
+						for(var i = 0; i < blockCustomers.length; i++){
+							obj = blockCustomers[i]
+							type = obj.type
+							customer = obj.customer				
+			%>
+								<style>
+									#<%=type + customer.id%>{
+										height: <%=100/blockCustomers.length%>%
+									}
+								</style>
+								
+								<div id='<%=type + customer.id%>' class='<%=type%>'>
+									<%=customer.id + type%>
+								</div>
+			<%
+						}
+			%>
+							</div>
+						</div>
+						<div class='center-road-wrapper'>
+							<div class='west horizontal-street street'>
+							</div>
+							<div class='intersection'>
+							</div>
+							<div class='east horizontal-street street'>
+							</div>
+						</div>
+						<div class='south-block-wrapper block-wrapper'>
+							<div class="south west block">
+			<%
+						blockCustomers = taxiDispatch.blockCustomers({
+								x: colIndex, 
+								y: rowIndex, 
+								northSouth: 'south',
+								westEast: 'west'
+						})
+
+						for(var i = 0; i < blockCustomers.length; i++){
+							obj = blockCustomers[i]
+							type = obj.type
+							customer = obj.customer				
+			%>
+								<style>
+									#<%=type + customer.id%>{
+										height: <%=100/blockCustomers.length%>%
+									}
+								</style>
+								
+								<div id='<%=type + customer.id%>' class='<%=type%>'>
+									<%=customer.id + type%>
+								</div>
+			<%
+						}
+			%>
+							</div>
+							<div class='south vertical-street street'>
+							</div>
+							<div class="south east block">
+			<%
+						blockCustomers = taxiDispatch.blockCustomers({
+								x: colIndex, 
+								y: rowIndex, 
+								northSouth: 'south',
+								westEast: 'east'
+						})
+
+						for(var i = 0; i < blockCustomers.length; i++){
+							obj = blockCustomers[i]
+							type = obj.type
+							customer = obj.customer				
+			%>
+								<style>
+									#<%=type + customer.id%>{
+										height: <%=100/blockCustomers.length%>%
+									}
+								</style>
+								
+								<div id='<%=type + customer.id%>' class='<%=type%>'>
+									<%=customer.id + type%>
+								</div>
+			<%
+						}
+			%>
+							</div>
+						</div>
+					</div>
+			<%
+					}
+			%>
+				</div>
+			<%
+				}
+			%>
+			</div>
+	</div>
+</div>
+<div class='right-panel panel'>
+	<div class='objects-wrapper'>
+		<div id='customer-list-wrapper' class='customer-wrapper'>
+			<div class='customer-list-wrapper'>
+				<h2> Customers </h2>
+				<list class="customer-list">
+				<%
+				if(true){
+				%>
+
+
+
+				<%
+				}
+				%>
+				</list>
+				</div>
+		</div>
+		<div class='taxi-list-wrapper'>
+		</div>
+	</div>
+</div>
+
