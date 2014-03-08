@@ -28,10 +28,10 @@ var HomeView = BaseView.extend({
   initialize: function() {
     var that = this;
 
-    this.template = loadTemplate("/static/views/nav.html");    
+    this.template = loadTemplate("/views/nav.html");
   },
   route: function(part, remaining) {
-    
+
     if (!part) {
       navigate("home", false); // don't trigger nav inside route
     }
@@ -40,9 +40,9 @@ var HomeView = BaseView.extend({
     this.taxiDispatch.on('render', function(data){
       that.dispatchRequestedRender(data)
     })
-  
+
     map = new MapDashboard({
-      rows: 10, 
+      rows: 10,
       columns: 10,
       taxiDispatch: this.taxiDispatch
     })
@@ -55,8 +55,8 @@ var HomeView = BaseView.extend({
     return {
       "#dashboard": map,
       '#taxis-wrapper': taxis
-    };    
-    
+    };
+
 
   },
   render: function() {
@@ -91,14 +91,14 @@ var MapDashboard = BaseView.extend({
     this.taxiDispatch = data.taxiDispatch
     this.taxiDispatch.initializeMap(this.map)
 
-    this.template = loadTemplate("/static/views/map.html");    
+    this.template = loadTemplate("/views/map.html");
   },
   route: function(part, remaining) {
 
     that = this
-    
-    return {};    
-    
+
+    return {};
+
   },
 
   render: function() {
@@ -112,11 +112,11 @@ var MapDashboard = BaseView.extend({
   },
 
   blockClick: function(clickEvent){
-    
+
     clickCoords = this.parseClickData(clickEvent)
 
     currCustomer = this.taxiDispatch.getCurrCustomer()
-    
+
     if(currCustomer){
       this.newCustomerDestination(currCustomer,clickCoords)
     }else{
@@ -159,19 +159,19 @@ var Taxis = BaseView.extend({
   },
   initialize: function(data) {
     var that = this;
-    
+
     this.taxiDispatch = data.taxiDispatch
     this.taxiCount = data.taxiCount
 
     this.taxiDispatch.spawnRandomTaxis(this.taxiCount)
     this.map = this.taxiDispatch.getMap()
 
-    this.template = loadTemplate("/static/views/taxis.html");    
+    this.template = loadTemplate("/views/taxis.html");
   },
   route: function(part, remaining) {
 
-    return {};    
-    
+    return {};
+
   },
   render: function() {
     var renderedTemplate = this.template({
@@ -188,15 +188,15 @@ var CustomerList = BaseView.extend({
   },
   initialize: function(data) {
     var that = this;
-    
+
     this.taxiDispatch = data.taxiDispatch
 
-    this.template = loadTemplate("/static/views/customerList.html");    
+    this.template = loadTemplate("/views/customerList.html");
   },
   route: function(part, remaining) {
 
-    return {};    
-    
+    return {};
+
   },
   render: function() {
     var renderedTemplate = this.template({

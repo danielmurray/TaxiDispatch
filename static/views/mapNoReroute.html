@@ -1,5 +1,5 @@
-<link href="/static/css/map.css" rel="stylesheet" type="text/css">
-<link href="/static/css/taxi.css" rel="stylesheet" type="text/css">
+<link href="/css/map.css" rel="stylesheet" type="text/css">
+<link href="/css/taxi.css" rel="stylesheet" type="text/css">
 
 <div id='map' class='map'>
 <style>
@@ -31,11 +31,11 @@
 </style>
 <%
 	i = 5
-	for (colIndex = 0; colIndex < mapDetails.colCount; colIndex++){ 
+	for (colIndex = 0; colIndex < mapDetails.colCount; colIndex++){
 %>
 	<div class='vertical-street-wrapper'>
-<%	
-		for (rowIndex = 0; rowIndex < mapDetails.rowCount; rowIndex++){ 
+<%
+		for (rowIndex = 0; rowIndex < mapDetails.rowCount; rowIndex++){
 
 %>
 		<div id="intersect<%=colIndex+"-"+rowIndex%>" class='intersection-wrapper'>
@@ -43,8 +43,8 @@
 				<div class="north west block">
 <%
 			blockCustomers = taxiDispatch.blockCustomers({
-					x: colIndex, 
-					y: rowIndex, 
+					x: colIndex,
+					y: rowIndex,
 					northSouth: 'north',
 					westEast: 'west'
 			})
@@ -52,14 +52,14 @@
 			for(var i = 0; i < blockCustomers.length; i++){
 				obj = blockCustomers[i]
 				type = obj.type
-				customer = obj.customer				
+				customer = obj.customer
 %>
 					<style>
 						#<%=type + customer.id%>{
 							height: <%=100/blockCustomers.length%>%
 						}
 					</style>
-					
+
 					<div id='<%=type + customer.id%>' class='<%=type%>'>
 						<%=customer.id + type%>
 					</div>
@@ -72,8 +72,8 @@
 				<div class="north east block">
 <%
 			blockCustomers = taxiDispatch.blockCustomers({
-					x: colIndex, 
-					y: rowIndex, 
+					x: colIndex,
+					y: rowIndex,
 					northSouth: 'north',
 					westEast: 'east'
 			})
@@ -81,14 +81,14 @@
 			for(var i = 0; i < blockCustomers.length; i++){
 				obj = blockCustomers[i]
 				type = obj.type
-				customer = obj.customer				
+				customer = obj.customer
 %>
 					<style>
 						#<%=type + customer.id%>{
 							height: <%=100/blockCustomers.length%>%
 						}
 					</style>
-					
+
 					<div id='<%=type + customer.id%>' class='<%=type%>'>
 						<%=customer.id + type%>
 					</div>
@@ -109,8 +109,8 @@
 				<div class="south west block">
 <%
 			blockCustomers = taxiDispatch.blockCustomers({
-					x: colIndex, 
-					y: rowIndex, 
+					x: colIndex,
+					y: rowIndex,
 					northSouth: 'south',
 					westEast: 'west'
 			})
@@ -118,14 +118,14 @@
 			for(var i = 0; i < blockCustomers.length; i++){
 				obj = blockCustomers[i]
 				type = obj.type
-				customer = obj.customer				
+				customer = obj.customer
 %>
 					<style>
 						#<%=type + customer.id%>{
 							height: <%=100/blockCustomers.length%>%
 						}
 					</style>
-					
+
 					<div id='<%=type + customer.id%>' class='<%=type%>'>
 						<%=customer.id + type%>
 					</div>
@@ -138,8 +138,8 @@
 				<div class="south east block">
 <%
 			blockCustomers = taxiDispatch.blockCustomers({
-					x: colIndex, 
-					y: rowIndex, 
+					x: colIndex,
+					y: rowIndex,
 					northSouth: 'north',
 					westEast: 'west'
 			})
@@ -147,14 +147,14 @@
 			for(var i = 0; i < blockCustomers.length; i++){
 				obj = blockCustomers[i]
 				type = obj.type
-				customer = obj.customer				
+				customer = obj.customer
 %>
 					<style>
 						#<%=type + customer.id%>{
 							height: <%=100/blockCustomers.length%>%
 						}
 					</style>
-					
+
 					<div id='<%=type + customer.id%>' class='<%=type%>'>
 						<%=customer.id + type%>
 					</div>
@@ -171,16 +171,16 @@
 <%
 	}
 %>
-<%	
+<%
 	taxis = taxiDispatch.models
-	for (var i = 0; i < taxis.length; i++){ 
+	for (var i = 0; i < taxis.length; i++){
 		taxi = taxis[i]
 		coord = taxiDispatch.getCoord(taxi)
 		x = coord.x
 		y = coord.y
 %>
 <style>
-	#taxi<%=taxi.cid%>{	
+	#taxi<%=taxi.cid%>{
 		left: <%= x%>px;
 		top: <%= y%>px;
 
@@ -188,7 +188,7 @@
 	}
 </style>
 	<div id=<%='taxi' + taxi.cid%> class='taxi'>
-		
+
 	</div>
 <%
 	}
