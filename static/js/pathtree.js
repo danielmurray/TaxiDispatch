@@ -8,15 +8,25 @@ PathTree.prototype.pushGoal = function(goal) {
 	this.goalStack.push(goal)
 };
 
+PathTree.prototype.concat = function(goal) {
+	this.goalStack = this.goalStack.concat(goal)
+};
+
 PathTree.prototype.popGoal = function(goal) {
 	return this.goalStack.pop(goal)
+};
+
+PathTree.prototype.peek = function(goal) {
+	nextGoal = this.goalStack.pop(goal)
+	this.goalStack.push(nextGoal)
+	return nextGoal
 };
 
 PathTree.prototype.getGoalStackLength = function(goal) {
 	return this.goalStack.length
 };
 
-PathTree.prototype.getGoalStack = function(goal) {
+PathTree.prototype.getGoalStack = function() {
 	return this.goalStack
 };
 
@@ -25,10 +35,10 @@ PathTree.prototype.popNextAnimation = function(){
 },
 
 PathTree.prototype.buildPathToNextGoal = function(currentPosition) {
-	nextGoalObj = this.popGoal()
+	nextGoalObj = this.peek()
 		
 	this.root = new PathTreeNode(currentPosition.x,currentPosition.y);
-	this.path = this.root.randomChildStack(nextGoalObj)
+	this.path = this.root.randomPathStack(nextGoalObj)
 };
 
 PathTree.prototype.printCurrentPath = function(goal) {
@@ -38,17 +48,19 @@ PathTree.prototype.printCurrentPath = function(goal) {
 	}
 };
 
+
 //These next two functions aren't really used
 //as they create all possible
 PathTree.prototype.build = function(goal) {
+	console.log('hello')
 	this.pushGoal(goal)
 	this.goal=this.goalStack[0]
 	this.root.buildTreeNode(goal)
 };
 
 PathTree.prototype.randomPath = function(goal) {
-	randomChildStack = this.root.randomChildStack(goal)
-	return randomChildStack
+	randomPath = this.root.randomPathStack(goal)
+	return randomPath
 };
 
 
@@ -123,7 +135,7 @@ PathTreeNode.prototype.buildTreeNode = function(goalObj){
 	}
 };
 
-PathTreeNode.prototype.randomChildStack = function(goal){
+PathTreeNode.prototype.randomPathStack = function(goal){
 	
 	goalCoords = goal.coords
 	children = this.findChildren(goalCoords)
@@ -142,7 +154,7 @@ PathTreeNode.prototype.randomChildStack = function(goal){
 	childIndex = Math.floor(Math.random()*children.length)
 	this.child = children[childIndex]
 
-	stack = this.child.randomChildStack(goal)
+	stack = this.child.randomPathStack(goal)
 	path = this.child.pathSteps()
 
 	stack.push(path)

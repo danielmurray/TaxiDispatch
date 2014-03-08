@@ -108,14 +108,16 @@ var TaxiDispatch = Backbone.Collection.extend({
 
     customer.setDestination(destination)
 
-    cheapestTaxi = this.cheapestTaxi(customer)
+    // cheapestTaxi = this.cheapestTaxi(customer)
     
-    possiblePaths = this.possiblePaths(customer)
+    mostEffecientTaxiObj = this.mostEffecientTaxiWith(customer)
 
-    cheapestTaxi.assignCustomer(customer)
+    mostEffecientTaxi = mostEffecientTaxiObj.taxi
+    mostEffecientPath = mostEffecientTaxiObj.potentialPath
+    mostEffecientTaxi.assignCustomer(customer, mostEffecientPath )
 
     this.waitForRender()
-    this.dispatch(cheapestTaxi)
+    this.dispatch(mostEffecientTaxi)
 
   },
 
@@ -161,25 +163,50 @@ var TaxiDispatch = Backbone.Collection.extend({
     return taxiDistArray[0][0]
   },
 
-  possiblePaths: function(customer){
+  potentialPathsWith: function(customer){
 
-    possiblePaths = []
+    potentialPaths = []
 
     for (var i=0; i < this.models.length; i++) {
       taxi = this.models[i]
       
-      route = taxi.potentialEffectientRoute(customer)
-      distance = this.calculateRouteDistance(route)
-      
-      console.log(route.length, distance)
+      currPath = taxi.currentPath()
+      currPathLength = taxi.calculateRouteDistance(currPath)
 
-      path = {}
-      path.taxi = taxi
-      path.route = route
-      path.distance = distance
+      newPath = taxi.potentialPathWith(customer)
+      newPathLength = taxi.calculateRouteDistance(newPath)
+
+      taxiObj = {
+        taxi: taxi,
+        potentialPath: newPath,
+        extraGas: newPathLength - currPathLength
+      }
+
+      potentialPaths.push(taxiObj)
+
     }
 
-    return possiblePaths
+    return potentialPaths
+  },
+
+  mostEffecientTaxiWith: function(customer){
+
+    taxis = this.potentialPathsWith(customer)
+
+    sortedTaxis = taxis.sort(function compare(a,b) {
+      if (a.extraGas < b.extraGas)
+         return -1;
+      if (a.extraGas > b.extraGas)
+        return 1;
+      return 0;
+    });
+
+    for(var i = 0; i < sortedTaxis.length; i++){
+      taxi = sortedTaxis[i]
+      console.log(taxi.taxi.cid, taxi.extraGas)
+    }
+
+    return sortedTaxis[0]
   },
 
   getCoord: function(taxi){
@@ -203,26 +230,9 @@ var TaxiDispatch = Backbone.Collection.extend({
     return graphY
   },
 
-  calculateRouteDistance: function(route){
-    
-    totalRouteDist = 0
-
-    for(var i=0; i < route.length - 1; i++){
-      routeSrc = route[i].coords
-      routeDest = route[i+1].coords
-      dist =  this.manhattanDistance(routeSrc, routeDest)
-      totalRouteDist = totalRouteDist + dist
-    }
-
-    return totalRouteDist
-
-  },
-
   manhattanDistance: function(customer, taxi){
-    xdif = Math.abs(customer.x - taxi.x)
-    ydif = Math.abs(customer.y - taxi.y)
-    distance = xdif + ydif
-    return distance
+    console.log(customer, taxi)
+    return manhattanDistance(customer.x, taxi.x, customer.y, taxi.y)
   },
 
   blockCustomers: function(blockLocation){
