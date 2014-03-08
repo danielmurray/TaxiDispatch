@@ -1,4 +1,4 @@
-<link href="/static/css/taxis.css" rel="stylesheet" type="text/css">
+<link href="/css/taxis.css" rel="stylesheet" type="text/css">
 <style>
 	.taxi{
 		width:<%= mapDetails.roadWidth%>px;
@@ -8,16 +8,16 @@
 </style>
 
 <div class='taxis'>
-	<%	
+	<%
 		taxis = taxiDispatch.models
-		for (var i = 0; i < taxis.length; i++){ 
+		for (var i = 0; i < taxis.length; i++){
 			taxi = taxis[i]
 			coord = taxiDispatch.getCoord(taxi)
 			x = coord.x
 			y = coord.y
 	%>
 	<style>
-		#taxi<%=taxi.cid%>{	
+		#taxi<%=taxi.cid%>{
 			left: <%= x%>px;
 			top: <%= y%>px;
 
@@ -25,7 +25,7 @@
 		}
 	</style>
 		<div id=<%='taxi' + taxi.cid%> class='taxi'>
-			
+
 		</div>
 	<%
 		}
